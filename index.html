@@ -61,6 +61,9 @@
   .pill { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; font-size:11px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; border-radius:999px; }
   .breadcrumb a:hover { color: #FF7B00; }
   .product-img-bg { background: linear-gradient(135deg, #f0f2f5 0%, #e4e7ec 100%); }
+  /* Stopgap for machine JPEGs with white backgrounds: blend white away
+     into the container so the equipment reads as cut-out, no Photoshop needed. */
+  .machine-img { mix-blend-mode: multiply; }
 </style>
 </head>
 <body class="antialiased">
@@ -172,7 +175,7 @@ const PRODUCTS = {
   'soft-serve': {
     name: 'Soft Serve & Frozen Yogurt',
     tagline: 'The classic profit center',
-    productImg: 'https://taylorproducts.net/wp-content/uploads/2022/05/Soft-Serve-Frozen-Yogurt-Hero-Image.png',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fsoft-serve.jpg&w=1920&q=75',
     productLabel: 'Twin-twist soft serve cones',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/model_c716-300x300.jpg',
     machineLabel: 'Taylor C716 Twin Twist, 28HT',
@@ -188,7 +191,7 @@ const PRODUCTS = {
   'icetro-auto': {
     name: 'Icetro Auto Soft Serve',
     tagline: 'Push-button self-serve',
-    productImg: 'https://taylorproducts.net/wp-content/uploads/2024/05/Icetro-Hero-1024x1024.png',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Ficetro.jpg&w=750&q=75',
     productLabel: 'Auto-dispensed soft serve',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2025/08/Icetro_ISI-271THS-300x300.jpg',
     machineLabel: 'Icetro ISI-271',
@@ -204,8 +207,8 @@ const PRODUCTS = {
   'gx': {
     name: 'GX Unit',
     tagline: 'Compact, high-output workhorse',
-    productImg: 'https://images.unsplash.com/photo-1629385441728-91e63f22a2dc?w=1200&h=900&fit=crop',
-    productLabel: 'High-volume soft serve',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Ffrozen-custard.jpg&w=750&q=75',
+    productLabel: 'High-volume frozen custard',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2024/05/Icetro_ISI-300TA_SoftServe_PhotoMain_Right_1-300x300.jpg',
     machineLabel: 'Icetro ISI-300TA',
     learnMoreUrl: 'https://taylorproducts.net/icetro-soft-serve/',
@@ -220,7 +223,7 @@ const PRODUCTS = {
   'grill': {
     name: 'Two-Sided Grill',
     tagline: 'Cook in half the time',
-    productImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/hot-foods.jpg',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fgrills.jpg&w=1920&q=75',
     productLabel: 'Fresh-off-the-grill burgers',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2023/08/Taylor-L858-CommercialClamshellGrill-PhotoMain-1-e1691083759580-244x300.png',
     machineLabel: 'Taylor L858 Crown Series',
@@ -236,7 +239,7 @@ const PRODUCTS = {
   'milkshakes': {
     name: 'Milkshakes',
     tagline: 'Hand-spun thickness, every time',
-    productImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/milkshakes.jpg',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fmilkshakes.jpg&w=750&q=75',
     productLabel: 'Hand-spun milkshakes',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/model_490-300x300.jpg',
     machineLabel: 'Taylor Model 490',
@@ -252,7 +255,7 @@ const PRODUCTS = {
   'batch': {
     name: 'Gelato & Batch Ice Cream',
     tagline: 'Premium scoop-shop quality',
-    productImg: 'https://taylorproducts.net/wp-content/uploads/2025/03/Batch-Gelato-Hero.png',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fgelato.jpg&w=750&q=75',
     productLabel: 'Artisan gelato & ice cream',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/model_104-300x300.jpg',
     machineLabel: 'Emery Thompson Model 104',
@@ -268,7 +271,7 @@ const PRODUCTS = {
   'flavor-burst': {
     name: 'Flavor Burst',
     tagline: 'Up to 8 flavors, one machine',
-    productImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/flavor-burst-c708.png',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fflavorburst.jpg&w=750&q=75',
     productLabel: '8-flavor striped soft serve',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/ctp80ss_c708_3-copy-293x300.jpg',
     machineLabel: 'FlavorBurst with Taylor C708',
@@ -284,7 +287,7 @@ const PRODUCTS = {
   'fcb': {
     name: 'Frozen Carbonated Beverage',
     tagline: 'High-margin slush profits',
-    productImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/cool-chiller.jpg',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fcool-chiller.png&w=750&q=75',
     productLabel: 'Frozen carbonated drinks',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/model_c300_2018-300x300.png',
     machineLabel: 'Taylor C300 FCB Freezer',
@@ -300,7 +303,7 @@ const PRODUCTS = {
   'slush': {
     name: 'Premium Slush',
     tagline: 'Crowd favorite, fast service',
-    productImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/premium-slush.jpg',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fslush.png&w=750&q=75',
     productLabel: 'Premium slush drinks',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/model_340-300x300.jpg',
     machineLabel: 'Taylor Model 340',
@@ -316,7 +319,7 @@ const PRODUCTS = {
   'cocktails': {
     name: 'Frozen Cocktails',
     tagline: 'Bar-quality drinks, hands-free',
-    productImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/frozen-cocktails.jpg',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Ffrozen-cocktails.jpg&w=1920&q=75',
     productLabel: 'Bar-quality frozen cocktails',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/Zamboozy__C300FAB_FrontA-scaled-1-200x300.jpg',
     machineLabel: 'Taylor C300FAB Zamboozy',
@@ -348,7 +351,7 @@ const PRODUCTS = {
   'frozen-coffee': {
     name: 'Frozen Coffee',
     tagline: 'Café-craft frozen drinks',
-    productImg: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=1600&h=1200&fit=crop',
+    productImg: 'https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fjava-latte.jpg&w=750&q=75',
     productLabel: 'Frozen coffee & cappuccino',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/model_428-300x300.jpg',
     machineLabel: 'Taylor Model 428',
@@ -545,7 +548,7 @@ function renderBusiness(biz) {
               <div class="aspect-[5/3] overflow-hidden relative bg-tpi-ink/5">
                 <img src="${p.productImg}" alt="${p.productLabel || p.name}" class="w-full h-full object-cover" loading="lazy" />
                 <div class="absolute top-3 right-3 w-20 h-20 rounded-xl product-img-bg border border-white shadow-md flex items-center justify-center p-2" title="${p.machineLabel}">
-                  <img src="${p.machineImg}" alt="${p.machineLabel}" class="max-h-full max-w-full object-contain" loading="lazy" />
+                  <img src="${p.machineImg}" alt="${p.machineLabel}" class="machine-img max-h-full max-w-full object-contain" loading="lazy" />
                 </div>
               </div>
               <div class="p-6">
@@ -594,7 +597,7 @@ function renderProduct(biz, productSlug, p) {
           </div>
           <div class="bg-white rounded-3xl border border-tpi-ink/5 overflow-hidden">
             <div class="aspect-square product-img-bg flex items-center justify-center p-6">
-              <img src="${p.machineImg}" alt="${p.machineLabel}" class="max-h-full max-w-full object-contain drop-shadow-lg" />
+              <img src="${p.machineImg}" alt="${p.machineLabel}" class="machine-img max-h-full max-w-full object-contain drop-shadow-lg" />
             </div>
             <div class="px-4 py-3 border-t border-tpi-ink/5 text-center">
               <div class="text-[10px] uppercase tracking-wider text-tpi-blue font-medium mb-0.5">The machine</div>
@@ -657,7 +660,7 @@ function renderProduct(biz, productSlug, p) {
               <div class="aspect-square relative bg-tpi-ink/5 overflow-hidden">
                 <img src="${op.productImg}" alt="${op.productLabel || op.name}" class="w-full h-full object-cover" loading="lazy" />
                 <div class="absolute bottom-2 right-2 w-12 h-12 rounded-lg product-img-bg border border-white shadow-sm flex items-center justify-center p-1" title="${op.machineLabel}">
-                  <img src="${op.machineImg}" alt="${op.machineLabel}" class="max-h-full max-w-full object-contain" loading="lazy" />
+                  <img src="${op.machineImg}" alt="${op.machineLabel}" class="machine-img max-h-full max-w-full object-contain" loading="lazy" />
                 </div>
               </div>
               <div class="p-4">
