@@ -61,6 +61,11 @@
   .pill { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; font-size:11px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; border-radius:999px; }
   .breadcrumb a:hover { color: #FF7B00; }
   .product-img-bg { background: linear-gradient(135deg, #f0f2f5 0%, #e4e7ec 100%); }
+  .machine-card-bg {
+    background:
+      radial-gradient(ellipse 65% 55% at 50% 45%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 70%),
+      linear-gradient(135deg, #eef1f5 0%, #dde2e9 100%);
+  }
 </style>
 </head>
 <body class="antialiased">
@@ -529,15 +534,15 @@ function renderBusiness(biz) {
           if (!p) return '';
           return `
             <a href="#/business/${biz.slug}/product/${slug}" class="card-hover img-zoom group block bg-white rounded-2xl overflow-hidden border border-tpi-ink/5">
-              <div class="aspect-[5/3] overflow-hidden relative">
-                <img src="${p.heroImg}" alt="${p.name}" class="w-full h-full object-cover absolute inset-0" loading="lazy" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/10"></div>
-                <div class="relative z-10 flex items-center justify-center h-full p-6">
-                  <img src="${p.machineImg}" alt="${p.machineLabel}" class="max-h-full max-w-[60%] object-contain drop-shadow-xl" loading="lazy" />
+              <div class="aspect-[5/3] machine-card-bg relative overflow-hidden">
+                <div class="absolute inset-0 flex items-center justify-center p-6">
+                  <img src="${p.machineImg}" alt="${p.machineLabel}" class="max-h-full max-w-[60%] object-contain drop-shadow-md" loading="lazy" />
+                </div>
+                <div class="absolute top-4 left-4">
+                  <span class="pill bg-white/90 backdrop-blur text-tpi-orange-dark text-[10px]">${p.tagline}</span>
                 </div>
               </div>
               <div class="p-6">
-                <div class="text-xs text-tpi-orange font-medium uppercase tracking-wider mb-1">${p.tagline}</div>
                 <h3 class="text-xl font-bold text-tpi-ink leading-tight">${p.name}</h3>
                 <p class="mt-2 text-sm text-tpi-stone leading-relaxed line-clamp-2">${p.summary}</p>
                 <div class="mt-5 flex items-center justify-between">
@@ -628,12 +633,8 @@ function renderProduct(biz, productSlug, p) {
           if (!op) return '';
           return `
             <a href="#/business/${biz.slug}/product/${slug}" class="card-hover group block bg-white rounded-xl border border-tpi-ink/5 p-4">
-              <div class="aspect-square rounded-lg overflow-hidden relative mb-3">
-                <img src="${op.heroImg}" alt="${op.name}" class="w-full h-full object-cover absolute inset-0" loading="lazy" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/10"></div>
-                <div class="relative z-10 flex items-center justify-center h-full p-3">
-                  <img src="${op.machineImg}" alt="${op.name}" class="max-h-full max-w-[70%] object-contain drop-shadow-lg" loading="lazy" />
-                </div>
+              <div class="aspect-square machine-card-bg rounded-lg overflow-hidden relative mb-3 flex items-center justify-center p-4">
+                <img src="${op.machineImg}" alt="${op.name}" class="max-h-full max-w-[75%] object-contain drop-shadow-md" loading="lazy" />
               </div>
               <div class="font-semibold text-tpi-ink text-sm leading-tight">${op.name}</div>
               <div class="text-xs text-tpi-stone mt-1">${op.tagline}</div>
