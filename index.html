@@ -529,8 +529,12 @@ function renderBusiness(biz) {
           if (!p) return '';
           return `
             <a href="#/business/${biz.slug}/product/${slug}" class="card-hover img-zoom group block bg-white rounded-2xl overflow-hidden border border-tpi-ink/5">
-              <div class="aspect-[5/3] product-img-bg overflow-hidden flex items-center justify-center p-6">
-                <img src="${p.machineImg}" alt="${p.name}" class="max-h-full max-w-full object-contain" loading="lazy" />
+              <div class="aspect-[5/3] overflow-hidden relative">
+                <img src="${p.heroImg}" alt="${p.name}" class="w-full h-full object-cover absolute inset-0" loading="lazy" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/10"></div>
+                <div class="relative z-10 flex items-center justify-center h-full p-6">
+                  <img src="${p.machineImg}" alt="${p.machineLabel}" class="max-h-full max-w-[60%] object-contain drop-shadow-xl" loading="lazy" />
+                </div>
               </div>
               <div class="p-6">
                 <div class="text-xs text-tpi-orange font-medium uppercase tracking-wider mb-1">${p.tagline}</div>
@@ -624,8 +628,12 @@ function renderProduct(biz, productSlug, p) {
           if (!op) return '';
           return `
             <a href="#/business/${biz.slug}/product/${slug}" class="card-hover group block bg-white rounded-xl border border-tpi-ink/5 p-4">
-              <div class="aspect-square product-img-bg rounded-lg flex items-center justify-center p-3 mb-3">
-                <img src="${op.machineImg}" alt="${op.name}" class="max-h-full max-w-full object-contain" loading="lazy" />
+              <div class="aspect-square rounded-lg overflow-hidden relative mb-3">
+                <img src="${op.heroImg}" alt="${op.name}" class="w-full h-full object-cover absolute inset-0" loading="lazy" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/10"></div>
+                <div class="relative z-10 flex items-center justify-center h-full p-3">
+                  <img src="${op.machineImg}" alt="${op.name}" class="max-h-full max-w-[70%] object-contain drop-shadow-lg" loading="lazy" />
+                </div>
               </div>
               <div class="font-semibold text-tpi-ink text-sm leading-tight">${op.name}</div>
               <div class="text-xs text-tpi-stone mt-1">${op.tagline}</div>
