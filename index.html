@@ -69,7 +69,7 @@
 <nav class="border-b border-tpi-ink/10 bg-tpi-cream/80 backdrop-blur-md sticky top-0 z-40">
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="#/" class="flex items-center gap-3 group">
-      <img src="https://taylorproducts.net/wp-content/uploads/2022/04/Artboard-2@2x-300x83.png" alt="Taylor Products" class="h-8 w-auto" />
+      <img src="https://taylorproducts.net/wp-content/uploads/2022/04/Artboard-2@2x-300x83.png" alt="Taylor Products" class="h-12 w-auto" />
     </a>
     <div class="flex items-center gap-6 text-sm">
       <a href="https://taylorproducts.net" target="_blank" class="hidden md:inline text-tpi-stone hover:text-tpi-ink underline-grow">Main Site</a>
@@ -166,6 +166,15 @@ const BUSINESS_TYPES = [
     fallback: 'linear-gradient(135deg, #15803D 0%, #052E16 100%)',
     products: ['cocktails', 'grill', 'soft-serve', 'smoothies'],
   },
+  {
+    slug: 'trendy-treats',
+    name: 'Trendy Treats',
+    blurb: 'Matcha, açaí, frozen margaritas & on-trend menu items',
+    description: 'On-trend, social-media-ready menu items that drive premium pricing and repeat visits.',
+    image: 'https://images.unsplash.com/photo-1717398804998-ad2d48822518?w=1600&h=1000&fit=crop&q=80',
+    fallback: 'linear-gradient(135deg, #16A34A 0%, #14532D 100%)',
+    products: ['acai', 'cocktails', 'frozen-coffee', 'smoothies'],
+  },
 ];
 
 const PRODUCTS = {
@@ -247,7 +256,7 @@ const PRODUCTS = {
   'batch': {
     name: 'Gelato & Batch Ice Cream',
     tagline: 'Premium scoop-shop quality',
-    heroImg: 'https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=1600&h=1000&fit=crop&q=80',
+    heroImg: 'https://static.wixstatic.com/media/1e1203_64ec317b9b8d4f8ba3164536bbcdec5a~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/model_104-300x300.jpg',
     machineLabel: 'Emery Thompson Model 104',
     learnMoreUrl: 'https://taylorproducts.net/ice-cream-gelato-batch/',
@@ -262,7 +271,7 @@ const PRODUCTS = {
   'flavor-burst': {
     name: 'Flavor Burst',
     tagline: 'Up to 8 flavors, one machine',
-    heroImg: 'https://images.unsplash.com/photo-1700323851649-0d00098e6f1f?w=1600&h=1000&fit=crop&q=80',
+    heroImg: 'https://www.flavorburst.com/wp-content/uploads/2022/04/circle-comp-SS.png',
     machineImg: 'https://taylorproducts.net/wp-content/uploads/2022/04/ctp80ss_c708_3-copy-293x300.jpg',
     machineLabel: 'FlavorBurst with Taylor C708',
     learnMoreUrl: 'https://taylorproducts.net/flavorburst-programs/',
@@ -426,10 +435,10 @@ function renderHome() {
           <span class="ticker-dot"></span> Taylor Company — 100 Years of Innovation
         </div>
         <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-tpi-ink leading-[1.02]">
-          What kind of business <span class="font-serif-italic font-normal text-tpi-blue">do you run?</span>
+          Your <span class="font-serif-italic font-normal text-tpi-blue">Business</span>
         </h1>
         <p class="mt-6 text-lg text-tpi-stone max-w-2xl">
-          Pick your operation below. We'll show you the Taylor and Icetro equipment built for the way you actually serve customers.
+          Choose your business to get started.
         </p>
       </div>
     </section>
