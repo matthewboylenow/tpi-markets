@@ -1,0 +1,388 @@
+{
+  "siteSettings": {
+    "heroPillText": "Taylor Company — 100 Years of Innovation",
+    "heroH1Part1": "Your",
+    "heroH1Part2": "Business",
+    "heroSubheading": "Choose your business to get started.",
+    "emptyStateText": "Don't see your business type?",
+    "emptyStateLinkText": "Tell us about your operation →",
+    "stat1Value": "$174",
+    "stat1Label": "Flat travel rate",
+    "stat2Value": "96%+",
+    "stat2Label": "Parts on truck",
+    "stat3Value": "8am-8pm",
+    "stat3Label": "Phone support, 7 days",
+    "stat4Value": "1985",
+    "stat4Label": "Serving NJ, NY, PA, DE",
+    "footerTagline": "Serving NJ, NY, PA & DE since 1985"
+  },
+  "businessTypes": [
+    {
+      "slug": "cafe",
+      "name": "Café",
+      "blurb": "Coffee shops, cafés & bakeries",
+      "description": "Add cold, profitable items to your menu without slowing down the espresso line.",
+      "imageFile": "businesses/cafe.jpg",
+      "fallbackUrl": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&h=1000&fit=crop",
+      "fallbackGradient": "linear-gradient(135deg, #6B4423 0%, #2D1810 100%)",
+      "products": ["frozen-coffee", "acai", "smoothies", "soft-serve", "grill", "batch"]
+    },
+    {
+      "slug": "diner",
+      "name": "Diner",
+      "blurb": "Diners, breakfast spots & family restaurants",
+      "description": "Workhorse equipment that keeps up with the breakfast and weekend rush.",
+      "imageFile": "businesses/diner.jpg",
+      "fallbackUrl": "https://images.unsplash.com/photo-1767769355000-8117f1967317?w=1600&h=1000&fit=crop",
+      "fallbackGradient": "linear-gradient(135deg, #B8252D 0%, #5C0F14 100%)",
+      "products": ["grill", "milkshakes", "soft-serve", "batch", "flavor-burst", "gx"]
+    },
+    {
+      "slug": "pizza",
+      "name": "Pizza Shop",
+      "blurb": "Pizzerias & Italian restaurants",
+      "description": "Beverage and dessert stations that turn one-item orders into full tickets.",
+      "imageFile": "businesses/pizza.jpg",
+      "fallbackUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1600&h=1000&fit=crop",
+      "fallbackGradient": "linear-gradient(135deg, #C4421A 0%, #5C1F0B 100%)",
+      "products": ["grill", "fcb", "slush", "soft-serve", "milkshakes", "batch"]
+    },
+    {
+      "slug": "cstore",
+      "name": "C-Store",
+      "blurb": "Convenience stores & gas stations",
+      "description": "Self-serve units built for foot traffic, low labor, and high ticket margins.",
+      "imageFile": "businesses/cstore.jpg",
+      "fallbackUrl": "https://images.unsplash.com/photo-1577374559080-cb697b79d8f0?w=1600&h=1000&fit=crop",
+      "fallbackGradient": "linear-gradient(135deg, #FF7B00 0%, #8C4400 100%)",
+      "products": ["soft-serve", "icetro-auto", "gx", "grill", "fcb"]
+    },
+    {
+      "slug": "boardwalk",
+      "name": "Boardwalk & Theme Park",
+      "blurb": "Boardwalks, amusement parks & entertainment",
+      "description": "High-volume crowd-pleasers engineered for nonstop summer service.",
+      "imageFile": "businesses/boardwalk.jpg",
+      "fallbackUrl": "https://images.unsplash.com/photo-1567800441954-eb9bc13823e4?w=1600&h=1000&fit=crop",
+      "fallbackGradient": "linear-gradient(135deg, #1E40AF 0%, #0F1F5C 100%)",
+      "products": ["cocktails", "fcb", "soft-serve", "flavor-burst", "grill"]
+    },
+    {
+      "slug": "mexican",
+      "name": "Mexican Restaurant",
+      "blurb": "Mexican restaurants, cantinas & taquerias",
+      "description": "Cocktail-grade frozen drink machines plus high-output grills for the back of house.",
+      "imageFile": "businesses/mexican.jpg",
+      "fallbackUrl": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=1600&h=1000&fit=crop",
+      "fallbackGradient": "linear-gradient(135deg, #15803D 0%, #052E16 100%)",
+      "products": ["cocktails", "grill", "soft-serve", "smoothies"]
+    },
+    {
+      "slug": "trendy-treats",
+      "name": "Trendy Treats",
+      "blurb": "Matcha, açaí, frozen margaritas & on-trend menu items",
+      "description": "On-trend, social-media-ready menu items that drive premium pricing and repeat visits.",
+      "imageFile": "businesses/trendy-treats.jpg",
+      "fallbackUrl": "https://images.unsplash.com/photo-1536257104079-aa99c6460a5a?w=1600&h=1000&fit=crop",
+      "fallbackGradient": "linear-gradient(135deg, #16A34A 0%, #14532D 100%)",
+      "products": ["acai", "cocktails", "frozen-coffee", "smoothies"]
+    }
+  ],
+  "products": [
+    {
+      "slug": "soft-serve",
+      "name": "Soft Serve & Frozen Yogurt",
+      "tagline": "The classic profit center",
+      "productLabel": "Twin-twist soft serve cones",
+      "imageFile": "products/soft-serve.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fsoft-serve.jpg&w=1920&q=75",
+      "summary": "Single-flavor, twin-twist, countertop, or floor-model freezers. Heat-treatment options cut cleaning to once a month.",
+      "benefits": [
+        "Over 20 freezer models from countertop to high-volume floor units",
+        "Heat-treatment line requires only one cleaning per 28 days",
+        "Single flavor, twin twist, or two-flavor configurations",
+        "Air-cooled and water-cooled options available"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/soft-serve-frozen-yogurt/",
+      "machines": ["taylor-c716"]
+    },
+    {
+      "slug": "icetro-auto",
+      "name": "Icetro Auto Soft Serve",
+      "tagline": "Push-button self-serve",
+      "productLabel": "Auto-dispensed soft serve",
+      "imageFile": "products/icetro-auto.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Ficetro.jpg&w=750&q=75",
+      "summary": "The Icetro ISI-271 dispenses perfect portions in cones or cups automatically. Built for unattended self-serve operations.",
+      "benefits": [
+        "Fully automatic portion dispensing",
+        "Heat-treatment system for extended cleaning intervals",
+        "Brush Butler cleaning program available",
+        "Designed for high-traffic c-stores and self-serve concepts"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/icetro-soft-serve/",
+      "machines": ["icetro-isi-271"]
+    },
+    {
+      "slug": "gx",
+      "name": "GX Unit",
+      "tagline": "Compact, high-output workhorse",
+      "productLabel": "High-volume frozen custard",
+      "imageFile": "products/gx.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Ffrozen-custard.jpg&w=750&q=75",
+      "summary": "A compact-footprint freezer engineered for tight spaces that still need serious volume.",
+      "benefits": [
+        "Small footprint, big capacity",
+        "Fast recovery between servings",
+        "Simplified controls for fast-paced operations",
+        "Ideal for space-constrained kitchens"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/icetro-soft-serve/",
+      "machines": ["icetro-isi-300ta"]
+    },
+    {
+      "slug": "grill",
+      "name": "Two-Sided Grill",
+      "tagline": "Cook in half the time",
+      "productLabel": "Fresh-off-the-grill burgers",
+      "imageFile": "products/grill.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fgrills.jpg&w=1920&q=75",
+      "summary": "Dual-platen grills cook both sides at once. Less labor, faster tickets, consistent results burger after burger.",
+      "benefits": [
+        "Cooks both sides simultaneously",
+        "Cuts cook times by up to 50%",
+        "Programmable presets for up to 99 menu items",
+        "Crown Series grills now in stock"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/two-sided-grills/",
+      "machines": ["taylor-l858"]
+    },
+    {
+      "slug": "milkshakes",
+      "name": "Milkshakes",
+      "tagline": "Hand-spun thickness, every time",
+      "productLabel": "Hand-spun milkshakes",
+      "imageFile": "products/milkshakes.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fmilkshakes.jpg&w=750&q=75",
+      "summary": "Dedicated shake freezers deliver the thick, drawable consistency customers expect from a real diner shake.",
+      "benefits": [
+        "Authentic hand-spun consistency",
+        "High-output for breakfast and weekend rush",
+        "Mix in fresh fruits, syrups, or candy",
+        "Up to four-flavor models available"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/milkshakes-2/",
+      "machines": ["taylor-490"]
+    },
+    {
+      "slug": "batch",
+      "name": "Gelato & Batch Ice Cream",
+      "tagline": "Premium scoop-shop quality",
+      "productLabel": "Artisan gelato & ice cream",
+      "imageFile": "products/batch.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fgelato.jpg&w=750&q=75",
+      "summary": "Emery Thompson batch freezers produce small-batch artisan ice cream and gelato in-house. Premium pricing power.",
+      "benefits": [
+        "Authentic scoop-shop ice cream and gelato",
+        "Full creative control over flavors and recipes",
+        "Save over 50% on food costs vs. buying finished product",
+        "Full training, recipes, and support from TPI"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/ice-cream-gelato-batch/",
+      "machines": ["emery-thompson-104"]
+    },
+    {
+      "slug": "flavor-burst",
+      "name": "Flavor Burst",
+      "tagline": "Up to 8 flavors, one machine",
+      "productLabel": "8-flavor striped soft serve",
+      "imageFile": "products/flavor-burst.png",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fflavorburst.jpg&w=750&q=75",
+      "summary": "Bolt-on system that injects concentrated flavorings into your existing soft serve. One machine, eight signature flavors.",
+      "benefits": [
+        "Up to 8 flavors from a single soft serve unit",
+        "Integrates with existing Taylor freezers",
+        "Color Touch Panel for easy operation",
+        "Easy menu rotation and LTOs"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/flavorburst-programs/",
+      "machines": ["flavorburst-c708"]
+    },
+    {
+      "slug": "fcb",
+      "name": "Frozen Carbonated Beverage",
+      "tagline": "High-margin slush profits",
+      "productLabel": "Frozen carbonated drinks",
+      "imageFile": "products/fcb.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fcool-chiller.png&w=750&q=75",
+      "summary": "Frozen carbonated beverage machines in 2, 3, and 4-barrel configurations. Self-serve ready with industry-leading uptime.",
+      "benefits": [
+        "2, 3, or 4-barrel configurations",
+        "Self-serve ready for minimal labor",
+        "9-flavor Cool Chiller option available",
+        "Optional Flavor Burst integration"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/frozen-soda-cool-chiller/",
+      "machines": ["taylor-c300"]
+    },
+    {
+      "slug": "slush",
+      "name": "Premium Slush",
+      "tagline": "Crowd favorite, fast service",
+      "productLabel": "Premium slush drinks",
+      "imageFile": "products/slush.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fslush.png&w=750&q=75",
+      "summary": "Premium slush freezers built for consistency, easy cleaning, and customizable branding.",
+      "benefits": [
+        "Consistent texture every serving",
+        "Easy-to-clean design",
+        "Customizable graphics and colors",
+        "Drives impulse purchases at checkout"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/premium-slush-3/",
+      "machines": ["taylor-340"]
+    },
+    {
+      "slug": "cocktails",
+      "name": "Frozen Cocktails",
+      "tagline": "Bar-quality drinks, hands-free",
+      "productLabel": "Bar-quality frozen cocktails",
+      "imageFile": "products/cocktails.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Ffrozen-cocktails.jpg&w=1920&q=75",
+      "summary": "Frozen cocktail freezers deliver consistent, high-margin drinks. Custom branding and color options for your bar.",
+      "benefits": [
+        "Consistent quality, draw after draw",
+        "Controlled portions eliminate over-pour",
+        "Custom branding and graphics available",
+        "Pairs with Blackbird Specialty Beverage Mixes"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/frozen-cocktails-2/",
+      "machines": ["taylor-c300fab"]
+    },
+    {
+      "slug": "smoothies",
+      "name": "Smoothies & Frozen Cappuccino",
+      "tagline": "Pick-me-ups that drive traffic",
+      "productLabel": "Fresh-blended smoothies",
+      "imageFile": "products/smoothies.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/smoothies-frozen-capuccino.jpg",
+      "summary": "Multi-purpose freezers for smoothies, frozen cappuccino, and frozen tea. Health-forward menu items at scale.",
+      "benefits": [
+        "Single or two-flavor models",
+        "Approved for dairy and non-dairy products",
+        "Adjustable thickness control",
+        "Strong morning and afternoon daypart sales"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/smoothies-frozen-cappuccino/",
+      "machines": ["taylor-430"]
+    },
+    {
+      "slug": "frozen-coffee",
+      "name": "Frozen Coffee",
+      "tagline": "Café-craft frozen drinks",
+      "productLabel": "Frozen coffee & cappuccino",
+      "imageFile": "products/frozen-coffee.jpg",
+      "fallbackUrl": "https://tpi-website-2026.vercel.app/_next/image?url=%2Fhomepage-img%2Fjava-latte.jpg&w=750&q=75",
+      "summary": "Purpose-built frozen coffee and cappuccino freezers that deliver shop-quality drinks faster than hand-blending.",
+      "benefits": [
+        "Café-quality consistency every time",
+        "Faster than blender-based prep",
+        "Frees up baristas for espresso orders",
+        "Strong afternoon daypart performance"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/smoothies-frozen-cappuccino/",
+      "machines": ["taylor-428"]
+    },
+    {
+      "slug": "acai",
+      "name": "Açaí & Bowl Programs",
+      "tagline": "Health-forward profit center",
+      "productLabel": "Açaí & smoothie bowls",
+      "imageFile": "products/acai.jpg",
+      "fallbackUrl": "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=1600&h=1200&fit=crop",
+      "summary": "Batch freezer programs that produce thick, scoopable açaí and smoothie bowl bases for premium menu pricing.",
+      "benefits": [
+        "Premium $9-$14 menu pricing",
+        "Health-forward menu positioning",
+        "Strong social media appeal",
+        "Cross-sells with smoothies and coffee"
+      ],
+      "learnMoreUrl": "https://taylorproducts.net/ice-cream-gelato-batch/",
+      "machines": ["emery-thompson-104"]
+    }
+  ],
+  "machines": [
+    {
+      "slug": "taylor-c716",
+      "label": "Taylor C716 Twin Twist, 28HT",
+      "imageFile": "machines/taylor-c716.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/model_c716-300x300.jpg"
+    },
+    {
+      "slug": "icetro-isi-271",
+      "label": "Icetro ISI-271",
+      "imageFile": "machines/icetro-isi-271.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2025/08/Icetro_ISI-271THS-300x300.jpg"
+    },
+    {
+      "slug": "icetro-isi-300ta",
+      "label": "Icetro ISI-300TA",
+      "imageFile": "machines/icetro-isi-300ta.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2024/05/Icetro_ISI-300TA_SoftServe_PhotoMain_Right_1-300x300.jpg"
+    },
+    {
+      "slug": "taylor-l858",
+      "label": "Taylor L858 Crown Series",
+      "imageFile": "machines/taylor-l858.png",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2023/08/Taylor-L858-CommercialClamshellGrill-PhotoMain-1-e1691083759580-244x300.png"
+    },
+    {
+      "slug": "taylor-490",
+      "label": "Taylor Model 490",
+      "imageFile": "machines/taylor-490.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/model_490-300x300.jpg"
+    },
+    {
+      "slug": "emery-thompson-104",
+      "label": "Emery Thompson Model 104",
+      "imageFile": "machines/emery-thompson-104.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/model_104-300x300.jpg"
+    },
+    {
+      "slug": "flavorburst-c708",
+      "label": "FlavorBurst with Taylor C708",
+      "imageFile": "machines/flavorburst-c708.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/ctp80ss_c708_3-copy-293x300.jpg"
+    },
+    {
+      "slug": "taylor-c300",
+      "label": "Taylor C300 FCB Freezer",
+      "imageFile": "machines/taylor-c300.png",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/model_c300_2018-300x300.png"
+    },
+    {
+      "slug": "taylor-340",
+      "label": "Taylor Model 340",
+      "imageFile": "machines/taylor-340.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/model_340-300x300.jpg"
+    },
+    {
+      "slug": "taylor-c300fab",
+      "label": "Taylor C300FAB Zamboozy",
+      "imageFile": "machines/taylor-c300fab.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/Zamboozy__C300FAB_FrontA-scaled-1-200x300.jpg"
+    },
+    {
+      "slug": "taylor-430",
+      "label": "Taylor Model 430",
+      "imageFile": "machines/taylor-430.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/model_430-300x300.jpg"
+    },
+    {
+      "slug": "taylor-428",
+      "label": "Taylor Model 428",
+      "imageFile": "machines/taylor-428.jpg",
+      "fallbackUrl": "https://taylorproducts.net/wp-content/uploads/2022/04/model_428-300x300.jpg"
+    }
+  ]
+}
