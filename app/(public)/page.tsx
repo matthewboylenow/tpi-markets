@@ -45,19 +45,27 @@ export default async function HomePage() {
   return (
     <>
       <section className="max-w-7xl mx-auto px-6 pt-16 pb-10 fade-in">
-        <div className="max-w-3xl">
-          <div className="pill bg-tpi-orange/10 text-tpi-orange-dark mb-6">
-            <span className="ticker-dot" /> {settings.heroPillText}
+        <div className="flex flex-col md:flex-row md:items-center gap-8 md:gap-10">
+          <div className="max-w-3xl flex-1">
+            <div className="pill bg-tpi-orange/10 text-tpi-orange-dark mb-6">
+              <span className="ticker-dot" /> {settings.heroPillText}
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-tpi-ink leading-[1.02]">
+              {settings.heroH1Part1}{" "}
+              <span className="font-serif-italic font-normal text-tpi-blue">
+                {settings.heroH1Part2}
+              </span>
+            </h1>
+            <div className="mt-6 text-lg text-tpi-stone max-w-2xl">
+              <RichText content={settings.heroSubheading} />
+            </div>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-tpi-ink leading-[1.02]">
-            {settings.heroH1Part1}{" "}
-            <span className="font-serif-italic font-normal text-tpi-blue">
-              {settings.heroH1Part2}
-            </span>
-          </h1>
-          <div className="mt-6 text-lg text-tpi-stone max-w-2xl">
-            <RichText content={settings.heroSubheading} />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://taylorproducts.net/wp-content/uploads/2026/03/Taylor100_Logo_A_Full_Color.png"
+            alt="Taylor 100 Years"
+            className="w-40 md:w-56 lg:w-64 h-auto shrink-0 self-start md:self-center"
+          />
         </div>
       </section>
 
