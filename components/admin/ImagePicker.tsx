@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { X, Upload, Link as LinkIcon, ImageIcon } from "lucide-react";
+import { upload } from "@vercel/blob/client";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { cn } from "@/lib/utils";
 import type { Image as ImageRow } from "@/lib/db/schema";
+
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 type Mode = "library" | "upload" | "external";
 
@@ -191,13 +194,26 @@ function UploadPanel({ onSelect }: { onSelect: (img: ImageRow) => void }) {
     setBusy(true);
     setError(null);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("altText", alt);
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      if (file.size > MAX_UPLOAD_BYTES) {
+        throw new Error("Max file size is 10MB");
+      }
+      const blob = await upload(`uploads/${file.name}`, file, {
+        access: "public",
+        handleUploadUrl: "/api/upload",
+      });
+      const res = await fetch("/api/images", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          url: blob.url,
+          blobPathname: blob.pathname,
+          altText: alt,
+          sourceType: "blob",
+        }),
+      });
       if (!res.ok) {
         const j = await res.json().catch(() => ({}));
-        throw new Error(j.error ?? "Upload failed");
+        throw new Error(j.error ?? "Save failed");
       }
       const img = (await res.json()) as ImageRow;
       onSelect(img);

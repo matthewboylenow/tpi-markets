@@ -1,43 +1,38 @@
-import { put } from "@vercel/blob";
+import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { images } from "@/lib/db/schema";
 
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const body = (await req.json()) as HandleUploadBody;
+
+  try {
+    const json = await handleUpload({
+      body,
+      request: req,
+      onBeforeGenerateToken: async () => {
+        const session = await auth();
+        if (!session) throw new Error("Unauthorized");
+        return {
+          allowedContentTypes: [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/gif",
+            "image/svg+xml",
+          ],
+          maximumSizeInBytes: 10 * 1024 * 1024,
+          addRandomSuffix: true,
+        };
+      },
+      onUploadCompleted: async () => {
+        // The client follows up with POST /api/images to record the row.
+      },
+    });
+    return NextResponse.json(json);
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Upload failed" },
+      { status: 400 }
+    );
   }
-
-  const form = await req.formData();
-  const file = form.get("file");
-  const altText = (form.get("altText") as string | null) ?? "";
-
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "No file" }, { status: 400 });
-  }
-  if (file.size > 10 * 1024 * 1024) {
-    return NextResponse.json({ error: "Max file size is 10MB" }, { status: 400 });
-  }
-  if (!file.type.startsWith("image/")) {
-    return NextResponse.json({ error: "Images only" }, { status: 400 });
-  }
-
-  const blob = await put(`uploads/${Date.now()}-${file.name}`, file, {
-    access: "public",
-    addRandomSuffix: true,
-  });
-
-  const [row] = await db
-    .insert(images)
-    .values({
-      url: blob.url,
-      blobPathname: blob.pathname,
-      altText,
-      sourceType: "blob",
-    })
-    .returning();
-
-  return NextResponse.json(row);
 }
