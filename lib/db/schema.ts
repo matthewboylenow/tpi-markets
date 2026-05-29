@@ -59,6 +59,22 @@ export const products = pgTable("products", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const productVariants = pgTable("product_variants", {
+  id: serial("id").primaryKey(),
+  productId: integer("product_id")
+    .notNull()
+    .references(() => products.id, { onDelete: "cascade" }),
+  slug: varchar("slug", { length: 64 }).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  imageId: integer("image_id").references(() => images.id, {
+    onDelete: "set null",
+  }),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export const machines = pgTable("machines", {
   id: serial("id").primaryKey(),
   slug: varchar("slug", { length: 64 }).unique().notNull(),
@@ -190,6 +206,18 @@ export const productsRelations = relations(products, ({ one, many }) => ({
   }),
   businessProducts: many(businessProducts),
   productMachines: many(productMachines),
+  variants: many(productVariants),
+}));
+
+export const productVariantsRelations = relations(productVariants, ({ one }) => ({
+  product: one(products, {
+    fields: [productVariants.productId],
+    references: [products.id],
+  }),
+  image: one(images, {
+    fields: [productVariants.imageId],
+    references: [images.id],
+  }),
 }));
 
 export const machinesRelations = relations(machines, ({ one, many }) => ({
@@ -226,5 +254,6 @@ export type Image = typeof images.$inferSelect;
 export type BusinessType = typeof businessTypes.$inferSelect;
 export type Product = typeof products.$inferSelect;
 export type Machine = typeof machines.$inferSelect;
+export type ProductVariant = typeof productVariants.$inferSelect;
 export type SiteSettings = typeof siteSettings.$inferSelect;
 export type User = typeof users.$inferSelect;

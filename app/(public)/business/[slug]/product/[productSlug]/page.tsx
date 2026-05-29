@@ -8,9 +8,11 @@ import {
   products,
   businessProducts,
   productMachines,
+  productVariants,
 } from "@/lib/db/schema";
 import { tiptapToPlainText } from "@/lib/tiptap-render";
 import { spURL } from "@/lib/utils";
+import { ProductVariantsSection } from "@/components/public/ProductVariantsSection";
 
 export const revalidate = 60;
 
@@ -69,6 +71,10 @@ export default async function ProductPage({
               productMachines: {
                 orderBy: asc(productMachines.sortOrder),
                 with: { machine: { with: { image: true } } },
+              },
+              variants: {
+                orderBy: asc(productVariants.sortOrder),
+                with: { image: true },
               },
             },
           },
@@ -246,6 +252,22 @@ export default async function ProductPage({
           </div>
         </div>
       </section>
+
+      {product.variants.length > 0 && (
+        <ProductVariantsSection
+          productName={product.name}
+          ctaUrl={ctaUrl}
+          variants={product.variants.map((v) => ({
+            id: v.id,
+            slug: v.slug,
+            name: v.name,
+            description: v.description,
+            image: v.image
+              ? { url: v.image.url, altText: v.image.altText }
+              : null,
+          }))}
+        />
+      )}
 
       <section className="max-w-7xl mx-auto px-6 py-16 border-t border-tpi-ink/10">
         <h2 className="text-2xl font-bold text-tpi-ink mb-8">

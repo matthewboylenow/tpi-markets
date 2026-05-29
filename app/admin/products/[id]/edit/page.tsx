@@ -4,12 +4,14 @@ import { db } from "@/lib/db";
 import {
   products,
   productMachines,
+  productVariants,
   businessProducts,
   businessTypes,
   machines,
 } from "@/lib/db/schema";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { ProductForm } from "@/components/admin/ProductForm";
+import { ProductVariantsManager } from "@/components/admin/ProductVariantsManager";
 
 export const metadata = { title: "Edit product" };
 
@@ -30,6 +32,10 @@ export default async function EditProductPage({
         orderBy: asc(productMachines.sortOrder),
       },
       businessProducts: true,
+      variants: {
+        orderBy: asc(productVariants.sortOrder),
+        with: { image: true },
+      },
     },
   });
   if (!product) notFound();
@@ -76,6 +82,18 @@ export default async function EditProductPage({
           sublabel: b.slug,
         }))}
       />
+      <div className="mt-6">
+        <ProductVariantsManager
+          productId={product.id}
+          variants={product.variants.map((v) => ({
+            id: v.id,
+            slug: v.slug,
+            name: v.name,
+            description: v.description,
+            image: v.image,
+          }))}
+        />
+      </div>
     </div>
   );
 }
