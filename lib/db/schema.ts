@@ -70,6 +70,7 @@ export const productVariants = pgTable("product_variants", {
   imageId: integer("image_id").references(() => images.id, {
     onDelete: "set null",
   }),
+  isFeatured: boolean("is_featured").notNull().default(false),
   sortOrder: integer("sort_order").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),

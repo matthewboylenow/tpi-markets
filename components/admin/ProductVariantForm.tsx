@@ -18,6 +18,7 @@ type Initial = {
   slug: string;
   name: string;
   description: string | null;
+  isFeatured?: boolean;
   image: ImageRow | null;
 };
 
@@ -37,6 +38,7 @@ export function ProductVariantForm({
   const [name, setName] = useState(initial.name);
   const [description, setDescription] = useState<string | null>(initial.description);
   const [image, setImage] = useState<ImageRow | null>(initial.image);
+  const [isFeatured, setIsFeatured] = useState(initial.isFeatured ?? false);
 
   function submit() {
     setError(null);
@@ -49,6 +51,7 @@ export function ProductVariantForm({
           name,
           description,
           imageId: image?.id ?? null,
+          isFeatured,
         });
         if (!res.ok) {
           setError(res.error ?? "Save failed");
@@ -133,6 +136,23 @@ export function ProductVariantForm({
               placeholder="What makes this variant special..."
             />
           </Field>
+
+          <label className="flex items-start gap-3 rounded-lg border border-tpi-ink/10 bg-tpi-cream/40 px-4 py-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isFeatured}
+              onChange={(e) => setIsFeatured(e.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-tpi-ink/30 text-tpi-orange focus:ring-tpi-orange/40"
+            />
+            <span className="text-sm">
+              <span className="font-medium text-tpi-ink">Feature this variant</span>
+              <span className="block text-xs text-tpi-stone mt-0.5">
+                Shows first on the product page in a double-size tile with a
+                &ldquo;Featured&rdquo; badge. Only one variant per product can be
+                featured — checking this clears it from the others.
+              </span>
+            </span>
+          </label>
         </div>
 
         <div className="flex items-center justify-between px-5 py-3 border-t border-tpi-ink/10 bg-tpi-cream/40">

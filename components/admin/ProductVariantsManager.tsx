@@ -13,6 +13,7 @@ export type VariantRow = {
   slug: string;
   name: string;
   description: string | null;
+  isFeatured: boolean;
   image: ImageRow | null;
 };
 
@@ -45,7 +46,14 @@ export function ProductVariantsManager({
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-sm font-medium text-tpi-ink truncate">{v.name}</div>
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="text-sm font-medium text-tpi-ink truncate">{v.name}</div>
+            {v.isFeatured && (
+              <span className="shrink-0 px-1.5 py-0.5 rounded bg-tpi-orange/10 text-tpi-orange text-[10px] font-semibold uppercase tracking-wider">
+                Featured
+              </span>
+            )}
+          </div>
           <div className="text-xs text-tpi-stone font-mono truncate">{v.slug}</div>
         </div>
         <button
@@ -99,6 +107,7 @@ export function ProductVariantsManager({
             slug: "",
             name: "",
             description: null,
+            isFeatured: false,
             image: null,
           }}
           onClose={() => setEditor({ mode: "closed" })}
@@ -112,6 +121,7 @@ export function ProductVariantsManager({
             slug: editor.variant.slug,
             name: editor.variant.name,
             description: editor.variant.description,
+            isFeatured: editor.variant.isFeatured,
             image: editor.variant.image,
           }}
           onClose={() => setEditor({ mode: "closed" })}

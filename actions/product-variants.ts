@@ -21,6 +21,7 @@ const Schema = z.object({
   name: z.string().min(1).max(128),
   description: z.string().nullable(),
   imageId: z.number().nullable(),
+  isFeatured: z.boolean().optional(),
   sortOrder: z.number().optional(),
 });
 
@@ -77,6 +78,7 @@ export async function saveProductVariant(input: ProductVariantInput) {
         name: data.name,
         description: data.description,
         imageId: data.imageId,
+        isFeatured: data.isFeatured ?? false,
         updatedAt: new Date(),
       })
       .where(eq(productVariants.id, variantId));
@@ -95,10 +97,24 @@ export async function saveProductVariant(input: ProductVariantInput) {
         name: data.name,
         description: data.description,
         imageId: data.imageId,
+        isFeatured: data.isFeatured ?? false,
         sortOrder,
       })
       .returning();
     variantId = row.id;
+  }
+
+  // Only one variant per product can be featured.
+  if (data.isFeatured && variantId) {
+    await db
+      .update(productVariants)
+      .set({ isFeatured: false })
+      .where(
+        and(
+          eq(productVariants.productId, data.productId),
+          ne(productVariants.id, variantId)
+        )
+      );
   }
 
   await revalidateForProduct(product.id, product.slug);

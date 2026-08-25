@@ -11,7 +11,7 @@ import {
   productVariants,
 } from "@/lib/db/schema";
 import { tiptapToPlainText } from "@/lib/tiptap-render";
-import { spURL } from "@/lib/utils";
+import { pluralizeBusiness, spURL } from "@/lib/utils";
 import { ProductVariantsSection } from "@/components/public/ProductVariantsSection";
 
 export const revalidate = 60;
@@ -262,6 +262,7 @@ export default async function ProductPage({
             slug: v.slug,
             name: v.name,
             description: v.description,
+            isFeatured: v.isFeatured,
             image: v.image
               ? { url: v.image.url, altText: v.image.altText }
               : null,
@@ -271,7 +272,7 @@ export default async function ProductPage({
 
       <section className="max-w-7xl mx-auto px-6 py-16 border-t border-tpi-ink/10">
         <h2 className="text-2xl font-bold text-tpi-ink mb-8">
-          Other equipment for {business.name}s
+          Other equipment for {pluralizeBusiness(business.name)}
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 stagger">
           {business.businessProducts

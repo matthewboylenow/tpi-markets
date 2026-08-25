@@ -90,6 +90,7 @@ export default async function EditProductPage({
             slug: v.slug,
             name: v.name,
             description: v.description,
+            isFeatured: v.isFeatured,
             image: v.image,
           }))}
         />

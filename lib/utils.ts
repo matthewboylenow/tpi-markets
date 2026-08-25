@@ -34,3 +34,11 @@ export function plainTextToTiptap(text: string): string {
     ],
   });
 }
+
+/**
+ * Business names render as "Equipment for {name}s" — but some are already
+ * plural ("Farmer's Markets"), which would read "Marketss".
+ */
+export function pluralizeBusiness(name: string) {
+  return /s$/i.test(name) ? name : `${name}s`;
+}

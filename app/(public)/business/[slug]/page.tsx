@@ -10,6 +10,7 @@ import {
 } from "@/lib/db/schema";
 import { ProductCard } from "@/components/public/ProductCard";
 import { tiptapToPlainText } from "@/lib/tiptap-render";
+import { pluralizeBusiness } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -34,7 +35,7 @@ export async function generateMetadata({
   });
   if (!b) return {};
   return {
-    title: `Equipment for ${b.name}s`,
+    title: `Equipment for ${pluralizeBusiness(b.name)}`,
     description: b.blurb,
   };
 }
@@ -103,7 +104,7 @@ export default async function BusinessPage({
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.02]">
               Equipment for{" "}
               <span className="font-serif-italic font-normal">
-                {business.name}s
+                {pluralizeBusiness(business.name)}
               </span>
             </h1>
             <p className="mt-6 text-lg text-white/80 max-w-xl">{description}</p>

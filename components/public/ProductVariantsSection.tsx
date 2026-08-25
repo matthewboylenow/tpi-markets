@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { RichText } from "./RichText";
+import { cn } from "@/lib/utils";
 
 export type PublicVariant = {
   id: number;
   slug: string;
   name: string;
   description: string | null;
+  isFeatured?: boolean;
   image: { url: string; altText: string | null } | null;
 };
 
@@ -40,6 +42,12 @@ export function ProductVariantsSection({
 
   if (variants.length === 0) return null;
 
+  // Featured variants lead the grid and take a double-width, double-height tile.
+  const ordered = [
+    ...variants.filter((v) => v.isFeatured),
+    ...variants.filter((v) => !v.isFeatured),
+  ];
+
   return (
     <section className="max-w-7xl mx-auto px-6 pb-16">
       <div className="mb-8">
@@ -50,15 +58,25 @@ export function ProductVariantsSection({
           Tap any flavor to see what it serves and how it fits your menu.
         </p>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 stagger">
-        {variants.map((v) => (
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-auto gap-4 stagger">
+        {ordered.map((v) => (
           <button
             key={v.id}
             type="button"
             onClick={() => setActiveId(v.id)}
-            className="card-hover group block bg-white rounded-2xl border border-tpi-ink/5 overflow-hidden text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-tpi-orange/40"
+            className={cn(
+              "card-hover group block bg-white rounded-2xl border overflow-hidden text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-tpi-orange/40",
+              v.isFeatured
+                ? "col-span-2 row-span-2 border-tpi-orange/40 ring-1 ring-tpi-orange/20"
+                : "border-tpi-ink/5"
+            )}
           >
-            <div className="aspect-square bg-tpi-ink/5 overflow-hidden relative">
+            <div
+              className={cn(
+                "bg-tpi-ink/5 overflow-hidden relative",
+                v.isFeatured ? "aspect-[4/3] md:aspect-square" : "aspect-square"
+              )}
+            >
               {v.image?.url && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -69,9 +87,19 @@ export function ProductVariantsSection({
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-tpi-ink/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              {v.isFeatured && (
+                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-tpi-orange text-white text-[10px] font-semibold uppercase tracking-wider shadow-sm">
+                  Featured
+                </span>
+              )}
             </div>
             <div className="p-4 flex items-center justify-between gap-2">
-              <div className="font-semibold text-tpi-ink text-sm leading-tight">
+              <div
+                className={cn(
+                  "font-semibold text-tpi-ink leading-tight",
+                  v.isFeatured ? "text-base md:text-lg" : "text-sm"
+                )}
+              >
                 {v.name}
               </div>
               <span className="text-xs text-tpi-orange font-medium opacity-0 group-hover:opacity-100 transition-opacity">
