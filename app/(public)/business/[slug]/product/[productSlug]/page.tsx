@@ -16,6 +16,15 @@ import { ProductVariantsSection } from "@/components/public/ProductVariantsSecti
 
 export const revalidate = 60;
 
+/** "https://www.wilsonpumps.com/" -> "wilsonpumps.com" */
+function learnMoreHost(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return "the manufacturer";
+  }
+}
+
 export async function generateStaticParams() {
   try {
     const rows = await db
@@ -237,7 +246,7 @@ export default async function ProductPage({
                   rel="noopener noreferrer"
                   className="px-6 py-3 text-sm text-tpi-blue font-medium rounded-lg border border-tpi-blue/20 hover:border-tpi-blue/50 transition-colors text-center"
                 >
-                  View all models on taylorproducts.net →
+                  View all models on {learnMoreHost(product.learnMoreUrl)} →
                 </a>
               )}
               <a
