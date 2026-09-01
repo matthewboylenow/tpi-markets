@@ -16,6 +16,14 @@ import { sql, relations } from "drizzle-orm";
 export const userRole = pgEnum("user_role", ["admin", "editor"]);
 export const imageSource = pgEnum("image_source", ["blob", "external"]);
 
+/** What a business page content block renders as. */
+export const sectionKind = pgEnum("section_kind", ["prose", "faq", "cta"]);
+/** Whether a block sits above or below the "Choose your equipment" grid. */
+export const sectionPlacement = pgEnum("section_placement", [
+  "before_products",
+  "after_products",
+]);
+
 export const images = pgTable("images", {
   id: serial("id").primaryKey(),
   url: varchar("url", { length: 1024 }).notNull(),
@@ -121,6 +129,33 @@ export const productMachines = pgTable(
   })
 );
 
+/**
+ * Long-form content blocks on a business page. Lets a business type carry
+ * narrative sections (an overview, a service pitch, FAQs, a closing CTA)
+ * around the product grid without a bespoke route per page.
+ */
+export const businessSections = pgTable("business_sections", {
+  id: serial("id").primaryKey(),
+  businessTypeId: integer("business_type_id")
+    .notNull()
+    .references(() => businessTypes.id, { onDelete: "cascade" }),
+  kind: sectionKind("kind").notNull().default("prose"),
+  placement: sectionPlacement("placement").notNull().default("before_products"),
+  eyebrow: varchar("eyebrow", { length: 128 }),
+  heading: varchar("heading", { length: 256 }).notNull(),
+  body: text("body"),
+  imageId: integer("image_id").references(() => images.id, {
+    onDelete: "set null",
+  }),
+  /** kind "faq": [{ question, answer }] */
+  items: jsonb("items").$type<{ question: string; answer: string }[]>().notNull().default([]),
+  /** kind "cta": button label; the href is the salesperson URL. */
+  ctaLabel: varchar("cta_label", { length: 128 }),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export const siteSettings = pgTable(
   "site_settings",
   {
@@ -198,6 +233,18 @@ export const businessTypesRelations = relations(businessTypes, ({ one, many }) =
     references: [images.id],
   }),
   businessProducts: many(businessProducts),
+  sections: many(businessSections),
+}));
+
+export const businessSectionsRelations = relations(businessSections, ({ one }) => ({
+  businessType: one(businessTypes, {
+    fields: [businessSections.businessTypeId],
+    references: [businessTypes.id],
+  }),
+  image: one(images, {
+    fields: [businessSections.imageId],
+    references: [images.id],
+  }),
 }));
 
 export const productsRelations = relations(products, ({ one, many }) => ({
@@ -256,5 +303,6 @@ export type BusinessType = typeof businessTypes.$inferSelect;
 export type Product = typeof products.$inferSelect;
 export type Machine = typeof machines.$inferSelect;
 export type ProductVariant = typeof productVariants.$inferSelect;
+export type BusinessSection = typeof businessSections.$inferSelect;
 export type SiteSettings = typeof siteSettings.$inferSelect;
 export type User = typeof users.$inferSelect;

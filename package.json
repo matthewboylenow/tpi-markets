@@ -13,7 +13,8 @@
     "db:studio": "drizzle-kit studio",
     "seed": "tsx scripts/seed.ts",
     "create-admin": "tsx scripts/create-admin.ts",
-    "farmers-market": "tsx scripts/farmers-market-update.ts"
+    "farmers-market": "tsx scripts/farmers-market-update.ts",
+    "ice-cream-shops": "tsx scripts/ice-cream-shops.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",

@@ -6,11 +6,13 @@ import { db } from "@/lib/db";
 import {
   businessTypes,
   businessProducts,
+  businessSections,
   productMachines,
 } from "@/lib/db/schema";
 import { ProductCard } from "@/components/public/ProductCard";
+import { BusinessSections } from "@/components/public/BusinessSections";
 import { tiptapToPlainText } from "@/lib/tiptap-render";
-import { pluralizeBusiness } from "@/lib/utils";
+import { pluralizeBusiness, spURL } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -51,6 +53,10 @@ export default async function BusinessPage({
     where: eq(businessTypes.slug, slug),
     with: {
       heroImage: true,
+      sections: {
+        orderBy: asc(businessSections.sortOrder),
+        with: { image: true },
+      },
       businessProducts: {
         orderBy: asc(businessProducts.sortOrder),
         with: {
@@ -71,6 +77,13 @@ export default async function BusinessPage({
   if (!business) notFound();
 
   const description = tiptapToPlainText(business.description);
+  const ctaUrl = spURL(business.slug);
+  const sectionsBefore = business.sections.filter(
+    (s) => s.placement === "before_products"
+  );
+  const sectionsAfter = business.sections.filter(
+    (s) => s.placement === "after_products"
+  );
 
   return (
     <>
@@ -112,6 +125,8 @@ export default async function BusinessPage({
         </div>
       </section>
 
+      <BusinessSections sections={sectionsBefore} ctaUrl={ctaUrl} />
+
       <section className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-baseline justify-between mb-8">
           <h2 className="text-2xl font-bold text-tpi-ink">
@@ -142,6 +157,8 @@ export default async function BusinessPage({
           })}
         </div>
       </section>
+
+      <BusinessSections sections={sectionsAfter} ctaUrl={ctaUrl} />
     </>
   );
 }
