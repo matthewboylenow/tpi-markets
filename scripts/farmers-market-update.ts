@@ -65,17 +65,24 @@ const FROZEN_CIDER = {
   heroFromProduct: "slush",
 };
 
-/** Paired with frozen cider. Tom confirmed the current machine shot is fine. */
+/** Paired with frozen cider. Real machine shot from taylorproducts.net. */
 const TAYLOR_390 = {
   slug: "taylor-390",
   label: "Taylor Model 390",
+  imageUrl:
+    "https://taylorproducts.net/wp-content/uploads/2022/04/model_390-300x300.jpg",
   imageFromMachine: "taylor-340",
 };
 
-/** The Flavor Burst configuration Tom wants shown: single head, cart underneath. */
+/**
+ * The Flavor Burst configuration Tom wants shown: single head, cart underneath.
+ * Taylor's own render of exactly that rig — C708 with the 8-bag cart integrator.
+ */
 const FB_CART = {
   slug: "flavorburst-c708-cart",
   label: "FlavorBurst Single-Head C708 with Cart Integrator",
+  imageUrl:
+    "https://taylorproducts.net/wp-content/uploads/2022/04/flavor-burst-c708.png",
   imageFromMachine: "flavorburst-c708",
 };
 
@@ -119,25 +126,57 @@ async function resolveImage(
 }
 
 async function ensureMachine(
-  spec: { slug: string; label: string; imageFromMachine: string },
+  spec: {
+    slug: string;
+    label: string;
+    imageUrl?: string;
+    imageFromMachine: string;
+  },
   envVar: string
 ) {
+  // An env override wins, then the machine's own real photo, then a borrowed one.
+  const url = process.env[envVar] ?? spec.imageUrl;
+  let imageId: number | null = null;
+  if (url) {
+    const known = await db
+      .select({ id: images.id })
+      .from(images)
+      .where(eq(images.url, url));
+    imageId =
+      known[0]?.id ??
+      (
+        await db
+          .insert(images)
+          .values({ url, altText: spec.label, sourceType: "external" })
+          .returning()
+      )[0].id;
+  } else {
+    const source = await db.query.machines.findFirst({
+      where: eq(machines.slug, spec.imageFromMachine),
+    });
+    imageId = source?.imageId ?? null;
+    if (imageId) {
+      standIns.push(
+        `${spec.label} is showing the ${source?.label ?? "existing"} photo`
+      );
+    }
+  }
+
   const existing = await db.query.machines.findFirst({
     where: eq(machines.slug, spec.slug),
   });
   if (existing) {
-    console.log(`  = machine ${spec.label} already exists`);
-    return existing;
+    if (imageId && existing.imageId !== imageId) {
+      await db
+        .update(machines)
+        .set({ imageId, updatedAt: new Date() })
+        .where(eq(machines.id, existing.id));
+      console.log(`  ~ machine ${spec.label} image updated`);
+    } else {
+      console.log(`  = machine ${spec.label} already correct`);
+    }
+    return { ...existing, imageId };
   }
-  const source = await db.query.machines.findFirst({
-    where: eq(machines.slug, spec.imageFromMachine),
-  });
-  const imageId = await resolveImage(
-    envVar,
-    source?.imageId ?? null,
-    spec.label,
-    `${spec.label} is showing the ${source?.label ?? "existing"} photo`
-  );
   const [row] = await db
     .insert(machines)
     .values({ slug: spec.slug, label: spec.label, imageId })
