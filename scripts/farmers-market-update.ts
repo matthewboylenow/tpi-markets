@@ -61,7 +61,8 @@ const FROZEN_CIDER = {
     "No carbonation line or CO2 tank to haul out to the stand",
   ],
   learnMoreUrl: "https://taylorproducts.net/premium-slush-3/",
-  /** Stand-in hero until a cider photo is uploaded. */
+  /** Served from public/ — a static asset, so no blob upload needed. */
+  imageUrl: "/images/frozen-cider.jpg",
   heroFromProduct: "slush",
 };
 
@@ -106,6 +107,20 @@ const WILSON_PUMPS = {
 
 const standIns: string[] = [];
 
+/** Returns the images row id for a URL, reusing an existing row when present. */
+async function imageIdForUrl(url: string, alt: string) {
+  const known = await db
+    .select({ id: images.id })
+    .from(images)
+    .where(eq(images.url, url));
+  if (known[0]) return known[0].id;
+  const [row] = await db
+    .insert(images)
+    .values({ url, altText: alt, sourceType: "external" })
+    .returning();
+  return row.id;
+}
+
 /** Resolves an image: an env override wins, else borrow an existing row. */
 async function resolveImage(
   envVar: string,
@@ -138,18 +153,7 @@ async function ensureMachine(
   const url = process.env[envVar] ?? spec.imageUrl;
   let imageId: number | null = null;
   if (url) {
-    const known = await db
-      .select({ id: images.id })
-      .from(images)
-      .where(eq(images.url, url));
-    imageId =
-      known[0]?.id ??
-      (
-        await db
-          .insert(images)
-          .values({ url, altText: spec.label, sourceType: "external" })
-          .returning()
-      )[0].id;
+    imageId = await imageIdForUrl(url, spec.label);
   } else {
     const source = await db.query.machines.findFirst({
       where: eq(machines.slug, spec.imageFromMachine),
@@ -237,21 +241,36 @@ async function main() {
   // ---- 1. Frozen Cider as its own product ----------------------------------
   const taylor390 = await ensureMachine(TAYLOR_390, "TAYLOR_390_IMAGE_URL");
 
-  let cider = await db.query.products.findFirst({
-    where: eq(products.slug, FROZEN_CIDER.slug),
-  });
-  if (cider) {
-    console.log(`  = ${FROZEN_CIDER.name} product already exists`);
+  const ciderUrl = process.env.FROZEN_CIDER_IMAGE_URL ?? FROZEN_CIDER.imageUrl;
+  let heroImageId: number | null = null;
+  if (ciderUrl) {
+    heroImageId = await imageIdForUrl(ciderUrl, "Frozen cider");
   } else {
     const heroSource = await db.query.products.findFirst({
       where: eq(products.slug, FROZEN_CIDER.heroFromProduct),
     });
-    const heroImageId = await resolveImage(
+    heroImageId = await resolveImage(
       "FROZEN_CIDER_IMAGE_URL",
       heroSource?.heroImageId ?? null,
       "Frozen cider",
       `Frozen Cider is showing the ${heroSource?.name ?? "Premium Slush"} photo`
     );
+  }
+
+  let cider = await db.query.products.findFirst({
+    where: eq(products.slug, FROZEN_CIDER.slug),
+  });
+  if (cider) {
+    if (heroImageId && cider.heroImageId !== heroImageId) {
+      await db
+        .update(products)
+        .set({ heroImageId, updatedAt: new Date() })
+        .where(eq(products.id, cider.id));
+      console.log(`  ~ ${FROZEN_CIDER.name} hero image updated`);
+    } else {
+      console.log(`  = ${FROZEN_CIDER.name} product already correct`);
+    }
+  } else {
     const all = await db.select({ s: products.sortOrder }).from(products);
     const [row] = await db
       .insert(products)
