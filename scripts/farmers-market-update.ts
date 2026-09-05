@@ -87,6 +87,33 @@ const FB_CART = {
   imageFromMachine: "flavorburst-c708",
 };
 
+/**
+ * Product hero images. Local files are served from public/ as static assets,
+ * so they need no blob upload; the Flavor Burst graphic is hosted by
+ * flavorburst.com.
+ */
+const PRODUCT_IMAGES: { slug: string; url: string; alt: string }[] = [
+  { slug: "smoothies", url: "/images/smoothies.jpg", alt: "Fresh-blended smoothie" },
+  {
+    slug: "batch",
+    url: "/images/batch-ice-cream.jpg",
+    alt: "Batch ice cream in a waffle bowl",
+  },
+  {
+    slug: "flavor-burst",
+    url: "https://www.flavorburst.com/wp-content/uploads/2022/08/circle-comp-SS.jpg",
+    alt: "Flavor Burst striped soft serve",
+  },
+];
+
+/**
+ * Renames a product on the Farmer's Markets page only. Product names are
+ * global, so this leaves every other business page untouched.
+ */
+const NAME_OVERRIDES: Record<string, string> = {
+  batch: "Batch Ice Cream, Ices & Gelato",
+};
+
 /** Wilson Pumps copy, from wilsonpumps.com and its distributors. */
 const WILSON_PUMPS = {
   slug: "wilson-pumps",
@@ -225,9 +252,12 @@ async function setPrimaryMachine(productId: number, machineId: number) {
 }
 
 async function main() {
-  // Kept so a fresh database gets the column the featured-variant UI needs.
+  // Kept so a fresh database gets the columns the newer UI needs.
   await db.execute(
     sql`alter table product_variants add column if not exists is_featured boolean not null default false`
+  );
+  await db.execute(
+    sql`alter table business_products add column if not exists name_override varchar(128)`
   );
 
   const business = await db.query.businessTypes.findFirst({
@@ -354,7 +384,28 @@ async function main() {
     console.log(`  ~ ${wilson.name} copy written`);
   }
 
-  // ---- 5. The grid: exactly these products, in this order ------------------
+  // ---- 5. Product hero images ----------------------------------------------
+  for (const spec of PRODUCT_IMAGES) {
+    const product = await db.query.products.findFirst({
+      where: eq(products.slug, spec.slug),
+    });
+    if (!product) {
+      console.warn(`  ! No product with slug "${spec.slug}" — skipped.`);
+      continue;
+    }
+    const imageId = await imageIdForUrl(spec.url, spec.alt);
+    if (product.heroImageId === imageId) {
+      console.log(`  = ${product.name} image already correct`);
+      continue;
+    }
+    await db
+      .update(products)
+      .set({ heroImageId: imageId, updatedAt: new Date() })
+      .where(eq(products.id, product.id));
+    console.log(`  ~ ${product.name} hero image updated`);
+  }
+
+  // ---- 6. The grid: exactly these products, in this order ------------------
   const existingLinks = await db
     .select({ productId: businessProducts.productId })
     .from(businessProducts)
@@ -368,21 +419,26 @@ async function main() {
       console.warn(`  ! No product with slug "${slug}" — skipped.`);
       continue;
     }
+    const nameOverride = NAME_OVERRIDES[slug] ?? null;
     if (existingLinks.some((l) => l.productId === product.id)) {
       await db
         .update(businessProducts)
-        .set({ sortOrder: i })
+        .set({ sortOrder: i, nameOverride })
         .where(
           and(
             eq(businessProducts.businessTypeId, business.id),
             eq(businessProducts.productId, product.id)
           )
         );
-      console.log(`  = ${product.name} (position ${i})`);
+      console.log(
+        `  = ${nameOverride ?? product.name} (position ${i})` +
+          (nameOverride ? " [renamed on this page]" : "")
+      );
     } else {
       await db.insert(businessProducts).values({
         businessTypeId: business.id,
         productId: product.id,
+        nameOverride,
         sortOrder: i,
       });
       console.log(`  + ${product.name} linked (position ${i})`);

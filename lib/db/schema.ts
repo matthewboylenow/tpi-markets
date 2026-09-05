@@ -105,6 +105,12 @@ export const businessProducts = pgTable(
     productId: integer("product_id")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
+    /**
+     * Renames the product on this business page only. Product names are
+     * global, so this is the way to say "Batch Ice Cream, Ices & Gelato"
+     * at a farmers market and leave every other page alone.
+     */
+    nameOverride: varchar("name_override", { length: 128 }),
     sortOrder: integer("sort_order").notNull().default(0),
   },
   (t) => ({

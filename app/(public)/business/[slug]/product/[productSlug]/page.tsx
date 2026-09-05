@@ -1,4 +1,4 @@
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -49,14 +49,21 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; productSlug: string }>;
 }): Promise<Metadata> {
-  const { productSlug } = await params;
+  const { slug, productSlug } = await params;
+  // The title follows the per-business rename when there is one.
+  const link = await db
+    .select({ nameOverride: businessProducts.nameOverride })
+    .from(businessProducts)
+    .innerJoin(businessTypes, eq(businessProducts.businessTypeId, businessTypes.id))
+    .innerJoin(products, eq(businessProducts.productId, products.id))
+    .where(and(eq(businessTypes.slug, slug), eq(products.slug, productSlug)));
   const p = await db.query.products.findFirst({
     where: eq(products.slug, productSlug),
   });
   if (!p) return {};
   const summaryPlain = tiptapToPlainText(p.summary);
   return {
-    title: p.name,
+    title: link[0]?.nameOverride ?? p.name,
     description: summaryPlain.slice(0, 160),
   };
 }
@@ -99,6 +106,7 @@ export default async function ProductPage({
   if (!productEntry) notFound();
 
   const product = productEntry.product;
+  const displayName = productEntry.nameOverride ?? product.name;
   const primaryMachine =
     product.productMachines.find((pm) => pm.isPrimary)?.machine ??
     product.productMachines[0]?.machine ??
@@ -122,7 +130,7 @@ export default async function ProductPage({
             {business.name}
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-tpi-ink">{product.name}</span>
+          <span className="text-tpi-ink">{displayName}</span>
         </nav>
       </section>
 
@@ -138,7 +146,7 @@ export default async function ProductPage({
                     alt={
                       product.heroImage.altText ??
                       product.productLabel ??
-                      product.name
+                      displayName
                     }
                     className="w-full h-full object-cover"
                   />
@@ -149,7 +157,7 @@ export default async function ProductPage({
                   What you&apos;ll serve
                 </div>
                 <div className="text-xs text-tpi-ink font-medium">
-                  {product.productLabel ?? product.name}
+                  {product.productLabel ?? displayName}
                 </div>
               </div>
             </div>
@@ -180,7 +188,7 @@ export default async function ProductPage({
               For your {business.name}
             </div>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-tpi-ink leading-[1.05]">
-              {product.name}
+              {displayName}
             </h1>
             <p className="mt-5 text-lg text-tpi-stone leading-relaxed">
               {summaryPlain}
@@ -264,7 +272,7 @@ export default async function ProductPage({
 
       {product.variants.length > 0 && (
         <ProductVariantsSection
-          productName={product.name}
+          productName={displayName}
           ctaUrl={ctaUrl}
           variants={product.variants.map((v) => ({
             id: v.id,
@@ -303,7 +311,7 @@ export default async function ProductPage({
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={op.heroImage.url}
-                        alt={op.heroImage.altText ?? op.name}
+                        alt={op.heroImage.altText ?? (bp.nameOverride ?? op.name)}
                         className="w-full h-full object-cover"
                         loading="lazy"
                       />
@@ -325,7 +333,7 @@ export default async function ProductPage({
                   </div>
                   <div className="p-4">
                     <div className="font-semibold text-tpi-ink text-sm leading-tight">
-                      {op.name}
+                      {bp.nameOverride ?? op.name}
                     </div>
                     <div className="text-xs text-tpi-stone mt-1">
                       {op.tagline}

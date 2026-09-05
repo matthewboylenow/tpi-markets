@@ -146,6 +146,7 @@ export default async function BusinessPage({
               <ProductCard
                 key={bp.product.id}
                 businessSlug={business.slug}
+                displayName={bp.nameOverride}
                 product={{
                   ...bp.product,
                   primaryMachine: primary

@@ -4,13 +4,16 @@ import type { Product, Machine, Image as ImageRow } from "@/lib/db/schema";
 
 type Props = {
   businessSlug: string;
+  /** Per-business rename; falls back to the product's global name. */
+  displayName?: string | null;
   product: Product & {
     heroImage: ImageRow | null;
     primaryMachine: (Machine & { image: ImageRow | null }) | null;
   };
 };
 
-export function ProductCard({ businessSlug, product }: Props) {
+export function ProductCard({ businessSlug, displayName, product }: Props) {
+  const name = displayName ?? product.name;
   const summary = tiptapToPlainText(product.summary);
   const machine = product.primaryMachine;
   return (
@@ -23,7 +26,7 @@ export function ProductCard({ businessSlug, product }: Props) {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={product.heroImage.url}
-            alt={product.heroImage.altText ?? product.name}
+            alt={product.heroImage.altText ?? name}
             className="w-full h-full object-cover"
             loading="lazy"
           />
@@ -48,7 +51,7 @@ export function ProductCard({ businessSlug, product }: Props) {
           {product.tagline}
         </div>
         <h3 className="text-xl font-bold text-tpi-ink leading-tight">
-          {product.name}
+          {name}
         </h3>
         <p className="mt-2 text-sm text-tpi-stone leading-relaxed line-clamp-2">
           {summary}
