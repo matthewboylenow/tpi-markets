@@ -45,6 +45,11 @@ export const businessTypes = pgTable("business_types", {
     onDelete: "set null",
   }),
   fallbackGradient: varchar("fallback_gradient", { length: 256 }).notNull(),
+  /**
+   * Where the homepage card links. Null means the business page itself; set
+   * it to send a single-product page (Flavor Burst) straight to the product.
+   */
+  cardHref: varchar("card_href", { length: 512 }),
   sortOrder: integer("sort_order").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),

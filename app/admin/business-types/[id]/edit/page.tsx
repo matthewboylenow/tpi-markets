@@ -57,6 +57,7 @@ export default async function EditBusinessTypePage({
           description: business.description,
           heroImage: business.heroImage,
           fallbackGradient: business.fallbackGradient,
+          cardHref: business.cardHref,
           productIds: business.businessProducts.map((bp) => bp.productId),
         }}
         productOptions={productList.map((p) => ({

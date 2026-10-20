@@ -11,7 +11,7 @@ export function BusinessCard({ business, productCount }: Props) {
   const description = tiptapToPlainText(business.description);
   return (
     <Link
-      href={`/business/${business.slug}`}
+      href={business.cardHref ?? `/business/${business.slug}`}
       className="card-hover img-zoom group block bg-white rounded-2xl overflow-hidden border border-tpi-ink/5"
     >
       <div

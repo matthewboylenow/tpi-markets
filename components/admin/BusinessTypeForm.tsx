@@ -18,6 +18,7 @@ type Initial = {
   description: string | null;
   heroImage: ImageRow | null;
   fallbackGradient: string;
+  cardHref?: string | null;
   productIds: number[];
 };
 
@@ -38,6 +39,7 @@ export function BusinessTypeForm({
   const [description, setDescription] = useState<string | null>(initial.description);
   const [heroImage, setHeroImage] = useState<ImageRow | null>(initial.heroImage);
   const [fallbackGradient, setFallbackGradient] = useState(initial.fallbackGradient);
+  const [cardHref, setCardHref] = useState(initial.cardHref ?? "");
   const [productIds, setProductIds] = useState(
     initial.productIds.map((id) => ({ id }))
   );
@@ -56,6 +58,7 @@ export function BusinessTypeForm({
           description,
           heroImageId: heroImage?.id ?? null,
           fallbackGradient,
+          cardHref: cardHref.trim() || null,
           productIds: productIds.map((p) => p.id),
         });
         if (!res.ok) {
@@ -142,6 +145,17 @@ export function BusinessTypeForm({
           <div
             className="mt-2 h-10 rounded-md border border-tpi-ink/10"
             style={{ background: fallbackGradient }}
+          />
+        </Field>
+        <Field>
+          <Label hint={`Leave blank to link to /business/${slug || "<slug>"}`}>
+            Homepage card link (optional)
+          </Label>
+          <Input
+            value={cardHref}
+            onChange={(e) => setCardHref(e.target.value)}
+            placeholder={`/business/${slug || "<slug>"}/product/<product-slug>`}
+            className="font-mono text-xs"
           />
         </Field>
       </div>

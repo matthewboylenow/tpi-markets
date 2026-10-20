@@ -18,6 +18,7 @@ const Schema = z.object({
   description: z.string().nullable(),
   heroImageId: z.number().nullable(),
   fallbackGradient: z.string().min(1).max(256),
+  cardHref: z.string().max(512).nullable().optional(),
   productIds: z.array(z.number()),
 });
 
@@ -53,6 +54,7 @@ export async function saveBusinessType(input: BusinessTypeInput) {
         description: data.description,
         heroImageId: data.heroImageId,
         fallbackGradient: data.fallbackGradient,
+        cardHref: data.cardHref?.trim() || null,
         updatedAt: new Date(),
       })
       .where(eq(businessTypes.id, businessId));
@@ -73,6 +75,7 @@ export async function saveBusinessType(input: BusinessTypeInput) {
         description: data.description,
         heroImageId: data.heroImageId,
         fallbackGradient: data.fallbackGradient,
+        cardHref: data.cardHref?.trim() || null,
         sortOrder,
       })
       .returning();

@@ -11,7 +11,7 @@
  * lineup; Tom should still give it a read.
  */
 import "./load-env";
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { db } from "../lib/db";
 import {
   images,
@@ -34,6 +34,8 @@ const BUSINESS = {
   /** The striped-cone photo — reads better behind white type than the circle graphic. */
   heroImageUrl:
     "https://dssfxl42eiz61htn.public.blob.vercel-storage.com/migrated/19-flavorburst.jpg",
+  /** The homepage card skips the landing page and opens the product directly. */
+  cardHref: "/business/flavor-burst/product/flavor-burst",
 };
 
 /** Equipment grid, in order: the system, then the freezers it bolts onto. */
@@ -125,6 +127,10 @@ async function imageIdForUrl(url: string, alt: string) {
 }
 
 async function main() {
+  await db.execute(
+    sql`alter table business_types add column if not exists card_href varchar(512)`
+  );
+
   // ---- Business type, first on the homepage --------------------------------
   const all = await db
     .select({ slug: businessTypes.slug, s: businessTypes.sortOrder })
@@ -142,6 +148,7 @@ async function main() {
     description: plainTextToTiptap(BUSINESS.description),
     heroImageId,
     fallbackGradient: BUSINESS.fallbackGradient,
+    cardHref: BUSINESS.cardHref,
     sortOrder: firstSort,
   };
   if (business) {
