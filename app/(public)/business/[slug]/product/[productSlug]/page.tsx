@@ -84,6 +84,7 @@ export default async function ProductPage({
           product: {
             with: {
               heroImage: true,
+              secondaryImage: true,
               productMachines: {
                 orderBy: asc(productMachines.sortOrder),
                 with: { machine: { with: { image: true } } },
@@ -111,6 +112,11 @@ export default async function ProductPage({
     product.productMachines.find((pm) => pm.isPrimary)?.machine ??
     product.productMachines[0]?.machine ??
     null;
+  // A second photo plus a second machine turns the two tiles into a 2x2 grid.
+  const secondMachine =
+    product.productMachines.find((pm) => pm.machine.id !== primaryMachine?.id)
+      ?.machine ?? null;
+  const showSecondRow = Boolean(product.secondaryImage?.url && secondMachine);
 
   const ctaUrl = spURL(business.slug, productSlug);
   const summaryPlain = tiptapToPlainText(product.summary);
@@ -137,50 +143,20 @@ export default async function ProductPage({
       <section className="max-w-7xl mx-auto px-6 pb-12 fade-in">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div className="lg:sticky lg:top-24 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-white rounded-3xl border border-tpi-ink/5 overflow-hidden">
-              <div className="aspect-square bg-tpi-ink/5 overflow-hidden">
-                {product.heroImage?.url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={product.heroImage.url}
-                    alt={
-                      product.heroImage.altText ??
-                      product.productLabel ??
-                      displayName
-                    }
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
-              <div className="px-4 py-3 border-t border-tpi-ink/5 text-center">
-                <div className="text-[10px] uppercase tracking-wider text-tpi-orange font-medium mb-0.5">
-                  What you&apos;ll serve
-                </div>
-                <div className="text-xs text-tpi-ink font-medium">
-                  {product.productLabel ?? displayName}
-                </div>
-              </div>
-            </div>
-            <div className="bg-white rounded-3xl border border-tpi-ink/5 overflow-hidden">
-              <div className="aspect-square product-img-bg flex items-center justify-center p-6">
-                {primaryMachine?.image?.url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={primaryMachine.image.url}
-                    alt={primaryMachine.label}
-                    className="machine-img max-h-full max-w-full object-contain drop-shadow-lg"
-                  />
-                )}
-              </div>
-              <div className="px-4 py-3 border-t border-tpi-ink/5 text-center">
-                <div className="text-[10px] uppercase tracking-wider text-tpi-blue font-medium mb-0.5">
-                  The machine
-                </div>
-                <div className="text-xs text-tpi-ink font-medium">
-                  {primaryMachine?.label ?? "—"}
-                </div>
-              </div>
-            </div>
+            <ServeTile
+              image={product.heroImage}
+              label={product.productLabel ?? displayName}
+            />
+            <MachineTile machine={primaryMachine} heading="The machine" />
+            {showSecondRow && (
+              <>
+                <ServeTile
+                  image={product.secondaryImage}
+                  label={product.secondaryLabel ?? displayName}
+                />
+                <MachineTile machine={secondMachine} heading="Also available" />
+              </>
+            )}
           </div>
 
           <div>
@@ -345,5 +321,65 @@ export default async function ProductPage({
         </div>
       </section>
     </>
+  );
+}
+
+function ServeTile({
+  image,
+  label,
+}: {
+  image: { url: string; altText: string | null } | null;
+  label: string;
+}) {
+  return (
+    <div className="bg-white rounded-3xl border border-tpi-ink/5 overflow-hidden">
+      <div className="aspect-square bg-tpi-ink/5 overflow-hidden">
+        {image?.url && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={image.url}
+            alt={image.altText ?? label}
+            className="w-full h-full object-cover"
+          />
+        )}
+      </div>
+      <div className="px-4 py-3 border-t border-tpi-ink/5 text-center">
+        <div className="text-[10px] uppercase tracking-wider text-tpi-orange font-medium mb-0.5">
+          What you&apos;ll serve
+        </div>
+        <div className="text-xs text-tpi-ink font-medium">{label}</div>
+      </div>
+    </div>
+  );
+}
+
+function MachineTile({
+  machine,
+  heading,
+}: {
+  machine: { label: string; image: { url: string } | null } | null;
+  heading: string;
+}) {
+  return (
+    <div className="bg-white rounded-3xl border border-tpi-ink/5 overflow-hidden">
+      <div className="aspect-square product-img-bg flex items-center justify-center p-6">
+        {machine?.image?.url && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={machine.image.url}
+            alt={machine.label}
+            className="machine-img max-h-full max-w-full object-contain drop-shadow-lg"
+          />
+        )}
+      </div>
+      <div className="px-4 py-3 border-t border-tpi-ink/5 text-center">
+        <div className="text-[10px] uppercase tracking-wider text-tpi-blue font-medium mb-0.5">
+          {heading}
+        </div>
+        <div className="text-xs text-tpi-ink font-medium">
+          {machine?.label ?? "—"}
+        </div>
+      </div>
+    </div>
   );
 }

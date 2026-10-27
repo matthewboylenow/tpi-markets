@@ -24,6 +24,8 @@ type Initial = {
   summary: string | null;
   benefits: string[];
   heroImage: ImageRow | null;
+  secondaryImage?: ImageRow | null;
+  secondaryLabel?: string | null;
   learnMoreUrl: string | null;
   machines: { id: number; isPrimary: boolean }[];
   businessTypeIds: number[];
@@ -50,6 +52,10 @@ export function ProductForm({
   const [summary, setSummary] = useState<string | null>(initial.summary);
   const [benefits, setBenefits] = useState<string[]>(initial.benefits);
   const [heroImage, setHeroImage] = useState<ImageRow | null>(initial.heroImage);
+  const [secondaryImage, setSecondaryImage] = useState<ImageRow | null>(
+    initial.secondaryImage ?? null
+  );
+  const [secondaryLabel, setSecondaryLabel] = useState(initial.secondaryLabel ?? "");
   const [learnMoreUrl, setLearnMoreUrl] = useState(initial.learnMoreUrl ?? "");
   const [machines, setMachines] = useState<SelectedItem[]>(
     initial.machines.map((m) => ({ id: m.id, isPrimary: m.isPrimary }))
@@ -71,6 +77,8 @@ export function ProductForm({
           summary,
           benefits,
           heroImageId: heroImage?.id ?? null,
+          secondaryImageId: secondaryImage?.id ?? null,
+          secondaryLabel: secondaryLabel.trim() || null,
           learnMoreUrl: learnMoreUrl.trim() || null,
           machines: machines.map((m) => ({
             id: m.id,
@@ -171,6 +179,26 @@ export function ProductForm({
           Hero image
         </h2>
         <ImagePicker value={heroImage} onChange={setHeroImage} label="Lifestyle / food photo" />
+        <div className="pt-4 border-t border-tpi-ink/5 space-y-4">
+          <p className="text-xs text-tpi-stone">
+            Optional second photo. When set, and the product has two or more
+            machines, the product page shows four tiles: both photos and the
+            first two machines.
+          </p>
+          <ImagePicker
+            value={secondaryImage}
+            onChange={setSecondaryImage}
+            label="Second food photo"
+          />
+          <Field>
+            <Label>Second photo caption</Label>
+            <Input
+              value={secondaryLabel}
+              onChange={(e) => setSecondaryLabel(e.target.value)}
+              placeholder="Frozen yogurt with fresh fruit"
+            />
+          </Field>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl border border-tpi-ink/10 p-6 space-y-4">

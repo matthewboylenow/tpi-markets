@@ -67,6 +67,14 @@ export const products = pgTable("products", {
     onDelete: "set null",
   }),
   learnMoreUrl: varchar("learn_more_url", { length: 512 }),
+  /**
+   * Optional second "What you'll serve" photo. When set and the product has a
+   * second machine, the product page shows a 2x2 tile grid instead of 2 tiles.
+   */
+  secondaryImageId: integer("secondary_image_id").references(() => images.id, {
+    onDelete: "set null",
+  }),
+  secondaryLabel: varchar("secondary_label", { length: 128 }),
   sortOrder: integer("sort_order").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
@@ -262,6 +270,12 @@ export const productsRelations = relations(products, ({ one, many }) => ({
   heroImage: one(images, {
     fields: [products.heroImageId],
     references: [images.id],
+    relationName: "product_hero_image",
+  }),
+  secondaryImage: one(images, {
+    fields: [products.secondaryImageId],
+    references: [images.id],
+    relationName: "product_secondary_image",
   }),
   businessProducts: many(businessProducts),
   productMachines: many(productMachines),

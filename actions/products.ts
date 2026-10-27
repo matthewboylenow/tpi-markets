@@ -29,6 +29,8 @@ const Schema = z.object({
   summary: z.string().nullable(),
   benefits: z.array(z.string().max(512)),
   heroImageId: z.number().nullable(),
+  secondaryImageId: z.number().nullable().optional(),
+  secondaryLabel: z.string().max(128).nullable().optional(),
   learnMoreUrl: z.string().max(512).nullable(),
   machines: z.array(MachineSelection),
   businessTypeIds: z.array(z.number()),
@@ -68,6 +70,8 @@ export async function saveProduct(input: ProductInput) {
         summary: data.summary,
         benefits,
         heroImageId: data.heroImageId,
+        secondaryImageId: data.secondaryImageId ?? null,
+        secondaryLabel: data.secondaryLabel?.trim() || null,
         learnMoreUrl: data.learnMoreUrl,
         updatedAt: new Date(),
       })
@@ -86,6 +90,8 @@ export async function saveProduct(input: ProductInput) {
         summary: data.summary,
         benefits,
         heroImageId: data.heroImageId,
+        secondaryImageId: data.secondaryImageId ?? null,
+        secondaryLabel: data.secondaryLabel?.trim() || null,
         learnMoreUrl: data.learnMoreUrl,
         sortOrder,
       })

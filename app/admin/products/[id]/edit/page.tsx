@@ -28,6 +28,7 @@ export default async function EditProductPage({
     where: eq(products.id, id),
     with: {
       heroImage: true,
+      secondaryImage: true,
       productMachines: {
         orderBy: asc(productMachines.sortOrder),
       },
@@ -64,6 +65,8 @@ export default async function EditProductPage({
           summary: product.summary,
           benefits: product.benefits ?? [],
           heroImage: product.heroImage,
+          secondaryImage: product.secondaryImage,
+          secondaryLabel: product.secondaryLabel,
           learnMoreUrl: product.learnMoreUrl,
           machines: product.productMachines.map((pm) => ({
             id: pm.machineId,
